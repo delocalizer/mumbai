@@ -1,0 +1,29 @@
+#!/usr/bin/env -S scala -classpath /home/conradL/git/htsjdk/build/libs/htsjdk-2.24.1-31-gf461401-SNAPSHOT.jar
+
+// requires:
+// stat /data/bigfiles/sequence/a05168de-0e6d-4867-82b1-22d330dac0f8.bam
+// stat /data/bigfiles/sequence/a05168de-0e6d-4867-82b1-22d330dac0f8.bam.bai
+// stat /home/conradL/git/htsjdk/build/libs/htsjdk-2.24.1-31-gf461401-SNAPSHOT.jar
+
+
+// as our truth set we ask WWHD (what would htsjdk do) for query over some intervals
+
+import scala.collection.JavaConverters._
+import java.io.File
+import htsjdk.samtools.SamReaderFactory
+val sr = SamReaderFactory.makeDefault().open(new File("/data/bigfiles/sequence/a05168de-0e6d-4867-82b1-22d330dac0f8.bam"))
+
+// SAMReader.query docs say query start, end are 1-based, inclusive
+// same as mumbai so we expect these counts to match with those from
+// mumbai
+List("chr1", "chr10", "chr11").foreach { chr =>
+  val sri = sr.query(chr, 1000000, 1000100, false)
+  println(s"${sri.asScala.length} records")
+  sri.close
+}
+// output: 
+// 25 records
+// 59 records
+// 87 records
+
+// checks out... also with bin-edge regions like chr1 1048576 1048576 # (2**20)

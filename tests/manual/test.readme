@@ -1,0 +1,39 @@
+We're going to cheat a bit and take htsjdk implementation rather than the SAM
+spec as the single point of truth.
+
+We want to test that our method gives the same results as htsjdk
+
+Things we wish to check include:
+* consistent use of open/closed bin boundaries
+* consistent use of open/closed query ranges
+* consistent use of 1-based or 0-based queries
+
+Specifically check:
+* Are the bins that we use the same as htsjdk?
+* Does regionToBins return the same as our method to find bins overlapping
+  [start, end]?
+* Is the query format we use the same as htsjdk? (open/closed and 0/1 based)?
+
+Integration tests for an example bam or two:
+* Check that htsjdk and our method return the same chunk offsets
+  for single-position queries at and around boundaries.
+* At a higher level: check that the number and identity of bam records
+  returned by htsjdk query is the same as for our method.
+
+Notes:
+* SAM spec refers to zero-based, half-open intervals e.g [0,1)
+* htsjdk.samtools.QueryInterval is 1-based and inclusive of start and end e.g
+  [1,1]
+* htsjdk.samtools.BAMFileReader.query is 1-based and inclusive of start and end
+* htsjdk.samtools.GenomicIndexUtil regionToBins is 1-based and inclusive - see
+  also its comment which intends a comparison to the 0-based, half-open
+  regionToBin which looks like it implements the SAM spec directly
+
+Examples:
+GenomicIndexUtil.regionToBins(1,1)
+GenomicIndexUtil.regionToBins(16384,16384)
+GenomicIndexUtil.regionToBins(16384,16385)
+
+query("chr1", 1, 1)
+query("chr1", 16384, 16384)
+query("chr1", 16384, 16385)

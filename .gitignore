@@ -1,0 +1,7 @@
+.coverage
+.tox
+build/
+htmlcov/
+*.egg-info/
+__pycache__/
+tests/manual/test.db

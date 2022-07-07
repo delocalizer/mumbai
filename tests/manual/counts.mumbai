@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+
+# requires:
+# stat /data/bigfiles/sequence/a05168de-0e6d-4867-82b1-22d330dac0f8.bam
+# stat /data/bigfiles/sequence/a05168de-0e6d-4867-82b1-22d330dac0f8.bam.bai
+# mumbai_db create test.db GRCh37
+# mumbai_db load test.db /data/bigfiles/sequence/a05168de-0e6d-4867-82b1-22d330dac0f8.bam
+
+for chr in chr1 chr10 chr11; do mumbai test.db count $chr 1000000 1000100; done 2>/dev/null
+# 25 records
+# 59 records
+# 87 records
+
+# checks out... also with bin-edge regions like chr1 1048576 1048576 # (2**20)

@@ -1,0 +1,4 @@
+include	VERSION
+include src/mumbai/resources/config.yaml
+include src/mumbai/resources/schema.sql
+include src/mumbai/resources/0_index

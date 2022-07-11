@@ -407,7 +407,7 @@ def _agg_results(results, header, mode):
                 agg[loc]['ref'] = pileup[loc]['ref']
                 for base in ('A', 'C', 'G', 'T', '-', '|'):
                     agg[loc][base] += pileup[loc].get(base, 0)
-        return pileup
+        return agg 
     if mode == 'sam':
         records = [sam for pos, sam in sorted(chain.from_iterable(results),                
                                               key=itemgetter(0))]

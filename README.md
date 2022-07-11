@@ -19,7 +19,8 @@ cd mumbai
 pip install -r requirements.txt --user .
 ```
 
-# Test (optional, requires tox)
+# Test
+(optional, requires tox)
 ```bash
 tox
 ```
@@ -61,4 +62,10 @@ mumbai count newdb chr1 1000000 1000100
 
 ```bash
 mumbai tview newdb chr1 1000000 1000100
+```
+
+5. query the bams by position and visualize the overlapping region as a pileup
+
+```bash
+mumbai pileup newdb chr1 1000000 1000100
 ```

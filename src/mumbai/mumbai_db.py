@@ -4,6 +4,7 @@ Create and load a bam index database.
 """
 import argparse
 import logging
+from importlib import metadata
 import importlib.resources as pkg_resources
 import io
 import os
@@ -295,6 +296,10 @@ def parse_cmdargs(arglist):
         nargs='+',
         type=valid_bam_with_index,
         help='path to bam with adjacent .bai file.')
+    parser.add_argument(
+        '--version',
+        action='version',
+        version=metadata.version('mumbai'))
 
     parsed = parser.parse_args(arglist)
 

@@ -8,9 +8,8 @@ loading a bam index database.
 import contextlib
 import importlib.resources as pkg_resources
 import io
-import sys
-
 from pathlib import Path
+import sys
 from unittest import TestCase
 from unittest.mock import patch
 

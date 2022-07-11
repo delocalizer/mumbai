@@ -9,6 +9,7 @@ import argparse
 from collections import defaultdict
 from concurrent.futures import ProcessPoolExecutor
 from dataclasses import dataclass
+from importlib import metadata
 import importlib.resources as pkg_resources
 from itertools import chain
 import logging
@@ -306,6 +307,10 @@ def parse_cmdargs(args):
         type=valid_pos_int,
         default=DEFAULT_MAX_WORKERS,
         help=f'Max processes to use (default={DEFAULT_MAX_WORKERS})')
+    parser.add_argument(
+        '--version',
+        action='version',
+        version=metadata.version('mumbai'))
     parsed = parser.parse_args(args)
     parsed.reg = Region(parsed.ref, parsed.start, parsed.stop)
     return parsed

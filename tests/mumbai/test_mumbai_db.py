@@ -2,10 +2,9 @@
 Test mumbai_db module functions.
 """
 import importlib.resources as pkg_resources
+from pathlib import Path
 import sqlite3
 import sys
-
-from pathlib import Path
 from tempfile import TemporaryDirectory
 from unittest import TestCase
 from unittest.mock import patch

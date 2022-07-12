@@ -1,0 +1,5 @@
+@HD	VN:1.4	GO:none	SO:coordinate
+@SQ	SN:chr1	LN:248956422
+@RG	ID:b38c1e06-64a1-4417-8bb1-0d8879f51d1b	zc:0:/mnt/lustre/working/genomeinfo/data/20160328_Melanoma/MELA_0102/seq_final/Melanoma_MELA0102_1DNA_5ControlCellLineDerivedFromNormalTissue_EXTERNMELA20140924104_Unknown0_NoCapture_Bwa_HiSeq/b38c1e06-64a1-4417-8bb1-0d8879f51d1b.aln.bam	SM:http://purl.org/net/grafli/collectedsample#f5d4165d-0768-4e9c-8888-9810fce7210f
+@PG	ID:samtools	PN:samtools	VN:1.13	CL:samtools view -H e178ff75-a809-4bdb-bc1a-6edf1fff4473.bam
+D8QSB6V1:72:C1K64ACXX:6:2314:19758:21128	181	chr1	10379	0	*	=	10379	0	TACGCAGTACCGATCTAGGGTAAAAGTAAGGCTTAGATTGACTGATAGTGTTAGTGTTACCCAAATGGTTAAGGTAAAGGATAAACCTCGAGGTAAGGTTA	#####################################################################################################	ZC:i:0	PG:Z:MarkDuplicates	RG:Z:b38c1e06-64a1-4417-8bb1-0d8879f51d1b	AS:i:0	XS:i:0

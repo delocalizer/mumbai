@@ -40,6 +40,7 @@ WINDOW_SIZE = 2**14
 
 DEFAULT_MAX_WORKERS = 20
 
+ERR_NOTPOSINT = '%s cannot be understood as a positive integer'
 MSG_NBAMS = '%s bams queried'
 MSG_NRECORDS = '%s records'
 
@@ -53,9 +54,9 @@ SQL = CONF['SQL']
 # bai file adjacent to the specified bam. We wish to avoid this (all our bams
 # have adjacent indexes, and not reading them is the whole point of this
 # exercise) so we use the index_filename constructor option to specify a
-# trivial index file which is quickly read but never used. Longer term
-# solution would be to patch AlignmentFile with an option to force it not to
-# use an index at all.
+# trivial index file which is quickly read but never used. Longer term TODO
+# would be to patch AlignmentFile with an option to force it not to use an
+# index at all.
 BAI0 = pkg_resources.path(mumbai.resources, '0_index')
 
 
@@ -118,14 +119,13 @@ def aligned_view(alignedseg):
     return aln
 
 
-def bam_fetch(bam, offset, refnames, reg, mode):
+def bam_fetch(bam, offset, reg, mode):
     """
     Return the records that overlap the region in the bam.
 
     Args:
         bam: Path to the coordinate-sorted bam.
         offset: Start reading the bam from here.
-        refnames: Names of references in the header.
         reg: Region (contig, start, stop).
         mode: Type of results to return (count, pileup, sam, tview).
     Returns:
@@ -135,24 +135,20 @@ def bam_fetch(bam, offset, refnames, reg, mode):
         mode=='sam'    => [(pos, SAM record)]  : list
         mode=='tview': => [(pos, alignedview)] : list
     """
-    # Implementation notes:
-    # 1. Reference names are passed explicitly to avoid needing to read the
-    #    bam header.
-    # 2. The price to pay for multiprocessing is that this function has to
-    #    return pickle-able results; in particular it can't return
-    #    pysam.AlignedRead instances. We could serialize using .to_string()
-    #    but then we'd have to reconstitute the SAM records elsewhere with
-    #    .fromstring() to do calculations for tview and pileup that use reads'
-    #    reference_positions and reference_sequence. To avoid that round trip 
-    #    cost we have this mildly ugly construction where we do all those
-    #    calculations here and return different types of results for the
-    #    different modes.
+    # Implementation note:
+    # The price to pay for multiprocessing is that this function has to return
+    # pickle-able results; in particular it can't return pysam.AlignedRead
+    # instances. We could serialize using .to_string() but then we'd have to
+    # reconstitute the SAM records elsewhere with .fromstring() to do
+    # calculations for tview and pileup that use reads' reference_positions
+    # and reference_sequence. To avoid that round trip cost we have this
+    # mildly ugly construction where we do all those calculations here and
+    # return different types of results for the different modes.
 
-    bamf = AlignmentFile(bam, mode='rb', check_header=False, check_sq=False,
-                         index_filename=BAI0, reference_names=refnames)
+    bamf = AlignmentFile(bam, mode='rb', index_filename=BAI0)
     bamf.seek(offset)
 
-    # intialize accumulators 
+    # intialize accumulators
     count = 0
     pileup = {(reg.contig, reg.start + i): defaultdict(int)
               for i in range(reg.stop - reg.start + 1)}
@@ -231,9 +227,7 @@ def bams_fetch(dbid, reg, mode, max_workers=1):
         'PG': [{'ID': Path(sys.argv[0]).name, 'CL': ' '.join(sys.argv[1:])}]
     })
 
-    batch_args = [
-        (bam, offset, header.references, reg, mode)
-        for bam, offset in offsets]
+    batch_args = [(bam, offset, reg, mode) for bam, offset in offsets]
     with ProcessPoolExecutor(max_workers=max_workers) as executor:
         batches = executor.map(bam_fetch, *zip(*batch_args))
     return _agg_results(batches, header, mode)
@@ -330,8 +324,7 @@ def reg2bins(rbeg, rend):
 
     Credit: https://github.com/betteridiot/bamnostic
     """
-    assert 0 <= rbeg <= rend <= BIN_MAX_RNG, 'Invalid region {}, {}'.format(
-        rbeg, rend)
+    assert 0 <= rbeg <= rend <= BIN_MAX_RNG, f'Invalid region {rbeg}, {rend}'
 
     yield 0
     for start, shift in zip(BIN_ID_STARTS, range(26, 13, -3)):
@@ -378,8 +371,8 @@ def valid_pos_int(arg):
         ival = int(arg)
         if ival <= 0:
             raise ValueError
-    except ValueError:
-        raise argparse.ArgumentTypeError(f'{arg} is not a +ve integer')
+    except ValueError as valerr:
+        raise argparse.ArgumentTypeError(ERR_NOTPOSINT % arg) from valerr
     return ival
 
 
@@ -407,9 +400,9 @@ def _agg_results(results, header, mode):
                 agg[loc]['ref'] = pileup[loc]['ref']
                 for base in ('A', 'C', 'G', 'T', '-', '|'):
                     agg[loc][base] += pileup[loc].get(base, 0)
-        return agg 
+        return agg
     if mode == 'sam':
-        records = [sam for pos, sam in sorted(chain.from_iterable(results),                
+        records = [sam for pos, sam in sorted(chain.from_iterable(results),
                                               key=itemgetter(0))]
         return (header, records)
     if mode == 'tview':

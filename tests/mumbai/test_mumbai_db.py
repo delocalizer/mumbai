@@ -17,6 +17,8 @@ TESTBAI = pkg_resources.path(resources,
                              'a05168de-0e6d-4867-82b1-22d330dac0f8.bam.bai')
 TESTBAM = pkg_resources.path(resources,
                              'a05168de-0e6d-4867-82b1-22d330dac0f8.bam')
+GRCh38BAM = pkg_resources.path(resources,
+                             '841111aa-915d-4646-9062-da7b62bb50ab.bam')
 
 TESTBAI_CHUNKS = [
     (1, 0, 4744, 111740733, 111741122),
@@ -84,7 +86,27 @@ class TestMumbaiDb(TestCase):
                 self.assertEqual(schema, expected)
                 cur.close()
 
-    def test_load_baidb(self):
+    def test_load_baidb_1(self):
+        """
+        Check that a bam with incorrect SN LN doesn't get loaded.
+        """
+        with TemporaryDirectory() as tmpdir:
+            createdb = Path(tmpdir) / 'test.db'
+            testargs = list(map(str,
+                            ('mumbai_db', 'create', createdb, 'GRCh37')))
+            with patch.object(sys, 'argv', testargs):
+                mumbai_db.main()
+            testargs = list(map(str,
+                            ('mumbai_db', 'load', createdb, GRCh38BAM)))
+            with patch.object(sys, 'argv', testargs):
+                mumbai_db.main()
+            con = sqlite3.connect(createdb)
+            cur = con.cursor()
+            cur.execute('SELECT * FROM bam')
+            bams = cur.fetchall()
+            self.assertFalse(bams)
+
+    def test_load_baidb_2(self):
         """
         Check that sqlite3 database is loaded as expected.
         (No test for postgres as that would require either local postgresql

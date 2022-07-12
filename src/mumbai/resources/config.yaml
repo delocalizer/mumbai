@@ -3,9 +3,79 @@
 
 reference:
 
-  GRCh37: ['chr1', 'chr2', 'chr3', 'chr4', 'chr5', 'chr6', 'chr7', 'chr8', 'chr9', 'chr10', 'chr11', 'chr12', 'chr13', 'chr14', 'chr15', 'chr16', 'chr17', 'chr18', 'chr19', 'chr20', 'chr21', 'chr22', 'chrX', 'chrY', 'GL000191.1', 'GL000192.1', 'GL000193.1', 'GL000194.1', 'GL000195.1', 'GL000196.1', 'GL000197.1', 'GL000198.1', 'GL000199.1', 'GL000200.1', 'GL000201.1', 'GL000202.1', 'GL000203.1', 'GL000204.1', 'GL000205.1', 'GL000206.1', 'GL000207.1', 'GL000208.1', 'GL000209.1', 'GL000210.1', 'GL000211.1', 'GL000212.1', 'GL000213.1', 'GL000214.1', 'GL000215.1', 'GL000216.1', 'GL000217.1', 'GL000218.1', 'GL000219.1', 'GL000220.1', 'GL000221.1', 'GL000222.1', 'GL000223.1', 'GL000224.1', 'GL000225.1', 'GL000226.1', 'GL000227.1', 'GL000228.1', 'GL000229.1', 'GL000230.1', 'GL000231.1', 'GL000232.1', 'GL000233.1', 'GL000234.1', 'GL000235.1', 'GL000236.1', 'GL000237.1', 'GL000238.1', 'GL000239.1', 'GL000240.1', 'GL000241.1', 'GL000242.1', 'GL000243.1', 'GL000244.1', 'GL000245.1', 'GL000246.1', 'GL000247.1', 'GL000248.1', 'GL000249.1', 'chrMT']
+  GRCh37: [
+  ['chr1', 249250621], ['chr2', 243199373], ['chr3', 198022430], ['chr4', 191154276],
+  ['chr5', 180915260], ['chr6', 171115067], ['chr7', 159138663], ['chr8', 146364022],
+  ['chr9', 141213431], ['chr10', 135534747], ['chr11', 135006516], ['chr12', 133851895],
+  ['chr13', 115169878], ['chr14', 107349540], ['chr15', 102531392], ['chr16', 90354753],
+  ['chr17', 81195210], ['chr18', 78077248], ['chr19', 59128983], ['chr20', 63025520],
+  ['chr21', 48129895], ['chr22', 51304566], ['chrX', 155270560], ['chrY', 59373566],
+  ['GL000191.1', 106433], ['GL000192.1', 547496], ['GL000193.1', 189789], ['GL000194.1', 191469],
+  ['GL000195.1', 182896], ['GL000196.1', 38914], ['GL000197.1', 37175], ['GL000198.1', 90085],
+  ['GL000199.1', 169874], ['GL000200.1', 187035], ['GL000201.1', 36148], ['GL000202.1', 40103],
+  ['GL000203.1', 37498], ['GL000204.1', 81310], ['GL000205.1', 174588], ['GL000206.1', 41001],
+  ['GL000207.1', 4262], ['GL000208.1', 92689], ['GL000209.1', 159169], ['GL000210.1', 27682],
+  ['GL000211.1', 166566], ['GL000212.1', 186858], ['GL000213.1', 164239], ['GL000214.1', 137718],
+  ['GL000215.1', 172545], ['GL000216.1', 172294], ['GL000217.1', 172149], ['GL000218.1', 161147],
+  ['GL000219.1', 179198], ['GL000220.1', 161802], ['GL000221.1', 155397], ['GL000222.1', 186861],
+  ['GL000223.1', 180455], ['GL000224.1', 179693], ['GL000225.1', 211173], ['GL000226.1', 15008],
+  ['GL000227.1', 128374], ['GL000228.1', 129120], ['GL000229.1', 19913], ['GL000230.1', 43691],
+  ['GL000231.1', 27386], ['GL000232.1', 40652], ['GL000233.1', 45941], ['GL000234.1', 40531],
+  ['GL000235.1', 34474], ['GL000236.1', 41934], ['GL000237.1', 45867], ['GL000238.1', 39939],
+  ['GL000239.1', 33824], ['GL000240.1', 41933], ['GL000241.1', 42152], ['GL000242.1', 43523],
+  ['GL000243.1', 43341], ['GL000244.1', 39929], ['GL000245.1', 36651], ['GL000246.1', 38154],
+  ['GL000247.1', 36422], ['GL000248.1', 39786], ['GL000249.1', 38502], ['chrMT', 16569]]
 
-  GRCh38: ['chr1', 'chr2', 'chr3', 'chr4', 'chr5', 'chr6', 'chr7', 'chr8', 'chr9', 'chr10', 'chr11', 'chr12', 'chr13', 'chr14', 'chr15', 'chr16', 'chr17', 'chr18', 'chr19', 'chr20', 'chr21', 'chr22', 'chrX', 'chrY', 'chrM', 'chr1_KI270706v1_random', 'chr1_KI270707v1_random', 'chr1_KI270708v1_random', 'chr1_KI270709v1_random', 'chr1_KI270710v1_random', 'chr1_KI270711v1_random', 'chr1_KI270712v1_random', 'chr1_KI270713v1_random', 'chr1_KI270714v1_random', 'chr2_KI270715v1_random', 'chr2_KI270716v1_random', 'chr3_GL000221v1_random', 'chr4_GL000008v2_random', 'chr5_GL000208v1_random', 'chr9_KI270717v1_random', 'chr9_KI270718v1_random', 'chr9_KI270719v1_random', 'chr9_KI270720v1_random', 'chr11_KI270721v1_random', 'chr14_GL000009v2_random', 'chr14_GL000225v1_random', 'chr14_KI270722v1_random', 'chr14_GL000194v1_random', 'chr14_KI270723v1_random', 'chr14_KI270724v1_random', 'chr14_KI270725v1_random', 'chr14_KI270726v1_random', 'chr15_KI270727v1_random', 'chr16_KI270728v1_random', 'chr17_GL000205v2_random', 'chr17_KI270729v1_random', 'chr17_KI270730v1_random', 'chr22_KI270731v1_random', 'chr22_KI270732v1_random', 'chr22_KI270733v1_random', 'chr22_KI270734v1_random', 'chr22_KI270735v1_random', 'chr22_KI270736v1_random', 'chr22_KI270737v1_random', 'chr22_KI270738v1_random', 'chr22_KI270739v1_random', 'chrY_KI270740v1_random', 'chrUn_KI270302v1', 'chrUn_KI270304v1', 'chrUn_KI270303v1', 'chrUn_KI270305v1', 'chrUn_KI270322v1', 'chrUn_KI270320v1', 'chrUn_KI270310v1', 'chrUn_KI270316v1', 'chrUn_KI270315v1', 'chrUn_KI270312v1', 'chrUn_KI270311v1', 'chrUn_KI270317v1', 'chrUn_KI270412v1', 'chrUn_KI270411v1', 'chrUn_KI270414v1', 'chrUn_KI270419v1', 'chrUn_KI270418v1', 'chrUn_KI270420v1', 'chrUn_KI270424v1', 'chrUn_KI270417v1', 'chrUn_KI270422v1', 'chrUn_KI270423v1', 'chrUn_KI270425v1', 'chrUn_KI270429v1', 'chrUn_KI270442v1', 'chrUn_KI270466v1', 'chrUn_KI270465v1', 'chrUn_KI270467v1', 'chrUn_KI270435v1', 'chrUn_KI270438v1', 'chrUn_KI270468v1', 'chrUn_KI270510v1', 'chrUn_KI270509v1', 'chrUn_KI270518v1', 'chrUn_KI270508v1', 'chrUn_KI270516v1', 'chrUn_KI270512v1', 'chrUn_KI270519v1', 'chrUn_KI270522v1', 'chrUn_KI270511v1', 'chrUn_KI270515v1', 'chrUn_KI270507v1', 'chrUn_KI270517v1', 'chrUn_KI270529v1', 'chrUn_KI270528v1', 'chrUn_KI270530v1', 'chrUn_KI270539v1', 'chrUn_KI270538v1', 'chrUn_KI270544v1', 'chrUn_KI270548v1', 'chrUn_KI270583v1', 'chrUn_KI270587v1', 'chrUn_KI270580v1', 'chrUn_KI270581v1', 'chrUn_KI270579v1', 'chrUn_KI270589v1', 'chrUn_KI270590v1', 'chrUn_KI270584v1', 'chrUn_KI270582v1', 'chrUn_KI270588v1', 'chrUn_KI270593v1', 'chrUn_KI270591v1', 'chrUn_KI270330v1', 'chrUn_KI270329v1', 'chrUn_KI270334v1', 'chrUn_KI270333v1', 'chrUn_KI270335v1', 'chrUn_KI270338v1', 'chrUn_KI270340v1', 'chrUn_KI270336v1', 'chrUn_KI270337v1', 'chrUn_KI270363v1', 'chrUn_KI270364v1', 'chrUn_KI270362v1', 'chrUn_KI270366v1', 'chrUn_KI270378v1', 'chrUn_KI270379v1', 'chrUn_KI270389v1', 'chrUn_KI270390v1', 'chrUn_KI270387v1', 'chrUn_KI270395v1', 'chrUn_KI270396v1', 'chrUn_KI270388v1', 'chrUn_KI270394v1', 'chrUn_KI270386v1', 'chrUn_KI270391v1', 'chrUn_KI270383v1', 'chrUn_KI270393v1', 'chrUn_KI270384v1', 'chrUn_KI270392v1', 'chrUn_KI270381v1', 'chrUn_KI270385v1', 'chrUn_KI270382v1', 'chrUn_KI270376v1', 'chrUn_KI270374v1', 'chrUn_KI270372v1', 'chrUn_KI270373v1', 'chrUn_KI270375v1', 'chrUn_KI270371v1', 'chrUn_KI270448v1', 'chrUn_KI270521v1', 'chrUn_GL000195v1', 'chrUn_GL000219v1', 'chrUn_GL000220v1', 'chrUn_GL000224v1', 'chrUn_KI270741v1', 'chrUn_GL000226v1', 'chrUn_GL000213v1', 'chrUn_KI270743v1', 'chrUn_KI270744v1', 'chrUn_KI270745v1', 'chrUn_KI270746v1', 'chrUn_KI270747v1', 'chrUn_KI270748v1', 'chrUn_KI270749v1', 'chrUn_KI270750v1', 'chrUn_KI270751v1', 'chrUn_KI270752v1', 'chrUn_KI270753v1', 'chrUn_KI270754v1', 'chrUn_KI270755v1', 'chrUn_KI270756v1', 'chrUn_KI270757v1', 'chrUn_GL000214v1', 'chrUn_KI270742v1', 'chrUn_GL000216v2', 'chrUn_GL000218v1', 'chrEBV']
+  GRCh38: [
+  ['chr1', 248956422], ['chr2', 242193529], ['chr3', 198295559], ['chr4', 190214555],
+  ['chr5', 181538259], ['chr6', 170805979], ['chr7', 159345973], ['chr8', 145138636],
+  ['chr9', 138394717], ['chr10', 133797422], ['chr11', 135086622], ['chr12', 133275309],
+  ['chr13', 114364328], ['chr14', 107043718], ['chr15', 101991189], ['chr16', 90338345],
+  ['chr17', 83257441], ['chr18', 80373285], ['chr19', 58617616], ['chr20', 64444167],
+  ['chr21', 46709983], ['chr22', 50818468], ['chrX', 156040895], ['chrY', 57227415],
+  ['chrM', 16569], ['chr1_KI270706v1_random', 175055], ['chr1_KI270707v1_random', 32032], ['chr1_KI270708v1_random', 127682],
+  ['chr1_KI270709v1_random', 66860], ['chr1_KI270710v1_random', 40176], ['chr1_KI270711v1_random', 42210], ['chr1_KI270712v1_random', 176043],
+  ['chr1_KI270713v1_random', 40745], ['chr1_KI270714v1_random', 41717], ['chr2_KI270715v1_random', 161471], ['chr2_KI270716v1_random', 153799],
+  ['chr3_GL000221v1_random', 155397], ['chr4_GL000008v2_random', 209709], ['chr5_GL000208v1_random', 92689], ['chr9_KI270717v1_random', 40062],
+  ['chr9_KI270718v1_random', 38054], ['chr9_KI270719v1_random', 176845], ['chr9_KI270720v1_random', 39050], ['chr11_KI270721v1_random', 100316],
+  ['chr14_GL000009v2_random', 201709], ['chr14_GL000225v1_random', 211173], ['chr14_KI270722v1_random', 194050], ['chr14_GL000194v1_random', 191469],
+  ['chr14_KI270723v1_random', 38115], ['chr14_KI270724v1_random', 39555], ['chr14_KI270725v1_random', 172810], ['chr14_KI270726v1_random', 43739],
+  ['chr15_KI270727v1_random', 448248], ['chr16_KI270728v1_random', 1872759], ['chr17_GL000205v2_random', 185591], ['chr17_KI270729v1_random', 280839],
+  ['chr17_KI270730v1_random', 112551], ['chr22_KI270731v1_random', 150754], ['chr22_KI270732v1_random', 41543], ['chr22_KI270733v1_random', 179772],
+  ['chr22_KI270734v1_random', 165050], ['chr22_KI270735v1_random', 42811], ['chr22_KI270736v1_random', 181920], ['chr22_KI270737v1_random', 103838],
+  ['chr22_KI270738v1_random', 99375], ['chr22_KI270739v1_random', 73985], ['chrY_KI270740v1_random', 37240], ['chrUn_KI270302v1', 2274],
+  ['chrUn_KI270304v1', 2165], ['chrUn_KI270303v1', 1942], ['chrUn_KI270305v1', 1472], ['chrUn_KI270322v1', 21476],
+  ['chrUn_KI270320v1', 4416], ['chrUn_KI270310v1', 1201], ['chrUn_KI270316v1', 1444], ['chrUn_KI270315v1', 2276],
+  ['chrUn_KI270312v1', 998], ['chrUn_KI270311v1', 12399], ['chrUn_KI270317v1', 37690], ['chrUn_KI270412v1', 1179],
+  ['chrUn_KI270411v1', 2646], ['chrUn_KI270414v1', 2489], ['chrUn_KI270419v1', 1029], ['chrUn_KI270418v1', 2145],
+  ['chrUn_KI270420v1', 2321], ['chrUn_KI270424v1', 2140], ['chrUn_KI270417v1', 2043], ['chrUn_KI270422v1', 1445],
+  ['chrUn_KI270423v1', 981], ['chrUn_KI270425v1', 1884], ['chrUn_KI270429v1', 1361], ['chrUn_KI270442v1', 392061],
+  ['chrUn_KI270466v1', 1233], ['chrUn_KI270465v1', 1774], ['chrUn_KI270467v1', 3920], ['chrUn_KI270435v1', 92983],
+  ['chrUn_KI270438v1', 112505], ['chrUn_KI270468v1', 4055], ['chrUn_KI270510v1', 2415], ['chrUn_KI270509v1', 2318],
+  ['chrUn_KI270518v1', 2186], ['chrUn_KI270508v1', 1951], ['chrUn_KI270516v1', 1300], ['chrUn_KI270512v1', 22689],
+  ['chrUn_KI270519v1', 138126], ['chrUn_KI270522v1', 5674], ['chrUn_KI270511v1', 8127], ['chrUn_KI270515v1', 6361],
+  ['chrUn_KI270507v1', 5353], ['chrUn_KI270517v1', 3253], ['chrUn_KI270529v1', 1899], ['chrUn_KI270528v1', 2983],
+  ['chrUn_KI270530v1', 2168], ['chrUn_KI270539v1', 993], ['chrUn_KI270538v1', 91309], ['chrUn_KI270544v1', 1202],
+  ['chrUn_KI270548v1', 1599], ['chrUn_KI270583v1', 1400], ['chrUn_KI270587v1', 2969], ['chrUn_KI270580v1', 1553],
+  ['chrUn_KI270581v1', 7046], ['chrUn_KI270579v1', 31033], ['chrUn_KI270589v1', 44474], ['chrUn_KI270590v1', 4685],
+  ['chrUn_KI270584v1', 4513], ['chrUn_KI270582v1', 6504], ['chrUn_KI270588v1', 6158], ['chrUn_KI270593v1', 3041],
+  ['chrUn_KI270591v1', 5796], ['chrUn_KI270330v1', 1652], ['chrUn_KI270329v1', 1040], ['chrUn_KI270334v1', 1368],
+  ['chrUn_KI270333v1', 2699], ['chrUn_KI270335v1', 1048], ['chrUn_KI270338v1', 1428], ['chrUn_KI270340v1', 1428],
+  ['chrUn_KI270336v1', 1026], ['chrUn_KI270337v1', 1121], ['chrUn_KI270363v1', 1803], ['chrUn_KI270364v1', 2855],
+  ['chrUn_KI270362v1', 3530], ['chrUn_KI270366v1', 8320], ['chrUn_KI270378v1', 1048], ['chrUn_KI270379v1', 1045],
+  ['chrUn_KI270389v1', 1298], ['chrUn_KI270390v1', 2387], ['chrUn_KI270387v1', 1537], ['chrUn_KI270395v1', 1143],
+  ['chrUn_KI270396v1', 1880], ['chrUn_KI270388v1', 1216], ['chrUn_KI270394v1', 970], ['chrUn_KI270386v1', 1788],
+  ['chrUn_KI270391v1', 1484], ['chrUn_KI270383v1', 1750], ['chrUn_KI270393v1', 1308], ['chrUn_KI270384v1', 1658],
+  ['chrUn_KI270392v1', 971], ['chrUn_KI270381v1', 1930], ['chrUn_KI270385v1', 990], ['chrUn_KI270382v1', 4215],
+  ['chrUn_KI270376v1', 1136], ['chrUn_KI270374v1', 2656], ['chrUn_KI270372v1', 1650], ['chrUn_KI270373v1', 1451],
+  ['chrUn_KI270375v1', 2378], ['chrUn_KI270371v1', 2805], ['chrUn_KI270448v1', 7992], ['chrUn_KI270521v1', 7642],
+  ['chrUn_GL000195v1', 182896], ['chrUn_GL000219v1', 179198], ['chrUn_GL000220v1', 161802], ['chrUn_GL000224v1', 179693],
+  ['chrUn_KI270741v1', 157432], ['chrUn_GL000226v1', 15008], ['chrUn_GL000213v1', 164239], ['chrUn_KI270743v1', 210658],
+  ['chrUn_KI270744v1', 168472], ['chrUn_KI270745v1', 41891], ['chrUn_KI270746v1', 66486], ['chrUn_KI270747v1', 198735],
+  ['chrUn_KI270748v1', 93321], ['chrUn_KI270749v1', 158759], ['chrUn_KI270750v1', 148850], ['chrUn_KI270751v1', 150742],
+  ['chrUn_KI270752v1', 27745], ['chrUn_KI270753v1', 62944], ['chrUn_KI270754v1', 40191], ['chrUn_KI270755v1', 36723],
+  ['chrUn_KI270756v1', 79590], ['chrUn_KI270757v1', 71251], ['chrUn_GL000214v1', 137718], ['chrUn_KI270742v1', 186739],
+  ['chrUn_GL000216v2', 176608], ['chrUn_GL000218v1', 161147], ['chrEBV', 171823]]
 
 SQL:
 
@@ -18,7 +88,7 @@ SQL:
       intv("window", ref_id, bam_id);
     drop_chunk_idx: DROP INDEX IF EXISTS chunk_bin_ref_bam_idx;
     drop_intv_idx: DROP INDEX IF EXISTS intv_window_ref_bam_idx;
-    select_ref: SELECT id, name FROM ref ORDER BY id;
+    select_ref: SELECT id, sn, ln FROM ref ORDER BY id;
 
 # INSERT ... ON CONFLICT requires postgres >= 9.5
   postgres:
@@ -34,7 +104,7 @@ SQL:
       ON CONFLICT (uuid) DO NOTHING;
     last_inserted: SELECT lastval();
     insert_ref:
-      INSERT INTO ref (id, name) VALUES (%s, %s)
+      INSERT INTO ref (id, sn, ln) VALUES (%s, %s, %s)
     select_offset:
       SELECT
           bam.filepath, chunk.chunk_beg
@@ -44,7 +114,7 @@ SQL:
           JOIN chunk ON intv.bam_id = chunk.bam_id AND intv.ref_id = chunk.ref_id
           JOIN ref ON chunk.ref_id = ref.id
       WHERE
-          ref.name = %s
+          ref.sn = %s
           AND intv.window = %s
           AND chunk.bin_id IN %s
           AND chunk.chunk_end >= ioffset
@@ -70,7 +140,7 @@ SQL:
       (bam_id, ref_id, window, ioffset)
       VALUES (?, ?, ?, ?);
     insert_ref:
-      INSERT INTO ref (id, name) VALUES (?, ?)
+      INSERT INTO ref (id, sn, ln) VALUES (?, ?, ?)
     last_inserted: SELECT last_insert_rowid();
     select_offset:
       SELECT
@@ -81,7 +151,7 @@ SQL:
           JOIN chunk ON intv.bam_id = chunk.bam_id AND intv.ref_id = chunk.ref_id
           JOIN ref ON chunk.ref_id = ref.id
       WHERE
-          ref.name = ?
+          ref.sn = ?
           AND intv.window = ?
           AND chunk.bin_id IN (%s)
           AND chunk.chunk_end >= ioffset

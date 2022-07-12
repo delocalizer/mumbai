@@ -47,9 +47,9 @@ MSG_DB_CREATED = '%s database %s created'
 MSG_DSN_FORMATS = ('\n"host=myhost dbname=mydb user=myuser"\n'
                    'or\n"postgresql://myuser@myhost/mydb"')
 MSG_PROCESSING = 'processing %s...'
-MSG_REF_MISMATCH = ('bam %s @SQ SN values are not a subset of the values '
-                    'from the database ref table:\n%s\nWas it aligned to a '
-                    'different reference?')
+MSG_REF_MISMATCH = ('@SQ SN LN values for %s are not a subset of the values '
+                    'from the database ref table:\n%s\nWas it '
+                    'aligned to a different reference?')
 
 # resources from adjacent files
 with pkg_resources.open_text(resources, 'schema.sql') as fh:
@@ -111,7 +111,7 @@ def create_baidb(newdb, reference, dsn=None):
     LOGGER.debug(create_schema)
 
     # ref table contents as per reference
-    refs = enumerate(REFERENCE[reference])
+    refs = [(i, sn, ln) for i, (sn, ln) in enumerate(REFERENCE[reference])]
 
     if dbtype == 'postgres':
         dsn['dbname'] = newdb
@@ -157,7 +157,7 @@ def load_baidb(dbid, bams):
 
     # what reference sequences does the db expect
     cur.execute(SQL['common']['select_ref'])
-    db_refs = set(r[1] for r in cur.fetchall())
+    db_refs = set((r[1], r[2]) for r in cur.fetchall())
 
     loaded = 0
     cur.execute('BEGIN;')
@@ -168,8 +168,10 @@ def load_baidb(dbid, bams):
         LOGGER.info(MSG_PROCESSING, bai)
         bamuuid = str(uuid.UUID(basename(bai).split('.')[0]))
 
-        if not set(pysam.AlignmentFile(bam).references) <= db_refs:
-            LOGGER.warning(MSG_REF_MISMATCH, bam, db_refs)
+        af = pysam.AlignmentFile(bam)
+        bam_refs = set(zip(af.references, af.lengths))
+        if not bam_refs <= db_refs:
+            LOGGER.warning(MSG_REF_MISMATCH, bam, sorted(bam_refs - db_refs))
             continue
         cur.execute(SQL[dbtype]['insert_bam'], (bamuuid, bam))
         if cur.rowcount == 0:

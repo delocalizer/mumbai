@@ -5,7 +5,8 @@
 -- Note: ref.name requires bam or other source as this isn't in bai
 CREATE TABLE ref (
   id ${ref_id_type} PRIMARY KEY,
-  name TEXT NOT NULL UNIQUE
+  sn TEXT NOT NULL UNIQUE,
+  ln INTEGER NOT NULL
 );
 
 -- Note: id is 1-based because it's auto-incrementing integer primary key

@@ -168,9 +168,8 @@ def bam_fetch(bam, offset, reg, mode):
         if read.is_unmapped or not read.seq:
             continue
 
-        # Use aligned bases only to account for any clipping at ends
-        ref_pos = read.get_reference_positions()
-        aln_start, aln_stop = ref_pos[0], ref_pos[-1]
+        # Account for any clipping at ends
+        aln_start, aln_stop = read.reference_start, read.reference_end - 1
 
         # alignment has no overlap => skip
         if aln_stop < reg.start0 or aln_start > reg.stop0:
@@ -179,11 +178,11 @@ def bam_fetch(bam, offset, reg, mode):
         if mode == 'count':
             count += 1
         elif mode == 'pileup':
-            update_pileup(pileup, reg, read, ref_pos)
+            update_pileup(pileup, reg, read)
         elif mode == 'sam':
             sam.append((read.pos, read.to_string()))
         elif mode == 'tview':
-            tview.append((ref_pos[0], aligned_view(read)))
+            tview.append((aln_start, aligned_view(read)))
         else:
             raise NotImplementedError(mode)
 
@@ -335,7 +334,7 @@ def reg2bins(rbeg, rend):
             yield start + bin_id_offset
 
 
-def update_pileup(pileup, reg, read, reference_positions=None):
+def update_pileup(pileup, reg, read):
     """
     Update the region pileup dictionary from the read.
 
@@ -343,19 +342,16 @@ def update_pileup(pileup, reg, read, reference_positions=None):
         pileup: Pileup dictionary to be updated in-place.
         reg: Genomic region.
         read: AlignedSegment that overlaps the region.
-        reference_positions: Pre-calculated reference positions (optional,
-                             saves calculating them again)
     Returns:
         the updated pileup.
     """
-    ref_pos = reference_positions or read.get_reference_positions()
     ref_bases = read.get_reference_sequence()  # requires MD tag
-    ref_start, aln = ref_pos[0], aligned_view(read)
-    ref_stop = ref_start + len(aln) - 1
-    aln_0 = 0 if reg.start0 <= ref_start else reg.start0 - ref_start
-    aln_1 = len(aln) if reg.stop0 >= ref_stop else reg.stop0 - ref_stop + len(aln)
+    aln_start, aln_stop = read.reference_start, read.reference_end - 1
+    aln = aligned_view(read)
+    aln_0 = 0 if reg.start0 <= aln_start else reg.start0 - aln_start
+    aln_1 = len(aln) if reg.stop0 >= aln_stop else reg.stop0 - aln_stop + len(aln)
     for aln_i in range(aln_0, aln_1):
-        pos = ref_start + aln_i + 1
+        pos = aln_start + aln_i + 1
         base = aln[aln_i].upper()
         p_loc = pileup[(reg.contig, pos)]
         p_loc['ref'] = ref_bases[aln_i]

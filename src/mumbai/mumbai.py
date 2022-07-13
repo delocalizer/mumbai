@@ -383,7 +383,7 @@ def parse_bam_record(byts, header):
     seq = ''.join(chain.from_iterable(
         (BASE_ENC[i >> 4], BASE_ENC[i & 15]) for i in seq_enc))
     # omit undefined last value when l_seq is odd
-    read.query_sequence = seq[:-1] if l_seq // 2 else seq
+    read.query_sequence = seq[:-1] if l_seq % 2 else seq
 
     fmt, offset = f'<{l_seq}s', offset + calcsize(prev)
     read.query_qualities = unpack_from(prev := fmt, byts, offset)[0]

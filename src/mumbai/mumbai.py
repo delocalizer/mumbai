@@ -18,13 +18,15 @@ from operator import itemgetter
 import os
 from pathlib import Path
 import sqlite3
+from struct import calcsize, unpack, unpack_from
+import struct
 import sys
 import traceback
 import yaml
 
 import psycopg2
 from psycopg2.extras import LoggingConnection
-from pysam import AlignedSegment, AlignmentFile, AlignmentHeader
+from pysam import AlignedSegment, AlignmentFile, AlignmentHeader, BGZFile
 
 from mumbai.mumbai_db import valid_dbid, ERR_UNEXPECTED, MSG_DSN_FORMATS
 import mumbai.resources
@@ -32,6 +34,14 @@ import mumbai.resources
 LOGGER = logging.getLogger(__name__)
 LOGGER.setLevel(os.environ.get('LOG_LEVEL', 'INFO'))
 LOGGER.addHandler(logging.StreamHandler())
+
+# See: Sequence Alignment/Map Format Specification|4.2.3
+BASE_ENC = tuple('=ACMGRSVTWYHKDBN')
+
+# See: Sequence Alignment/Map Format Specification|4.2.4
+VALTYPE_ENC = {
+    'A': '<c', 'c': '<b', 'C': '<B', 's': '<h', 'S': '<H', 'i': '<i',
+    'I': '<I', 'f': '<f'}
 
 BIN_MAX_RNG = (2**29) - 1
 BIN_ID_STARTS = (1, 9, 73, 585, 4681)
@@ -119,12 +129,14 @@ def aligned_view(alignedseg):
     return aln
 
 
-def bam_fetch(bam, offset, reg, mode):
+def bam_fetch(bam, ref_names, ref_lengths, offset, reg, mode):
     """
     Return the records that overlap the region in the bam.
 
     Args:
         bam: Path to the coordinate-sorted bam.
+        ref_names: List of reference names for constructing a header.
+        ref_lengths: List of reference lengths for constructing a header.
         offset: Start reading the bam from here.
         reg: Region (contig, start, stop).
         mode: Type of results to return (count, pileup, sam, tview).
@@ -145,8 +157,9 @@ def bam_fetch(bam, offset, reg, mode):
     # mildly ugly construction where we do all those calculations here and
     # return different types of results for the different modes.
 
-    bamf = AlignmentFile(bam, mode='rb', index_filename=BAI0)
-    bamf.seek(offset)
+    bgzf = BGZFile(bam, mode='rb')
+    bgzf.seek(offset)
+    header = AlignmentHeader.from_references(ref_names, ref_lengths)
 
     # intialize accumulators
     count = 0
@@ -155,7 +168,12 @@ def bam_fetch(bam, offset, reg, mode):
     sam = []
     tview = []
 
-    for read in bamf:
+    # See SAM spec section 4.2 "The BAM format"
+    while (next_block := bgzf.read(4)):
+
+        block_size = unpack('I', next_block)[0]
+        read = parse_bam_record(bgzf.read(block_size), header)
+
         # Read on the wrong contig => stop walking
         if read.reference_name != reg.contig:
             break
@@ -226,7 +244,8 @@ def bams_fetch(dbid, reg, mode, max_workers=1):
         'PG': [{'ID': Path(sys.argv[0]).name, 'CL': ' '.join(sys.argv[1:])}]
     })
 
-    batch_args = [(bam, offset, reg, mode) for bam, offset in offsets]
+    batch_args = [(bam, header.references, header.lengths, offset, reg, mode)
+                  for bam, offset in offsets]
     with ProcessPoolExecutor(max_workers=max_workers) as executor:
         batches = executor.map(bam_fetch, *zip(*batch_args))
     return _agg_results(batches, header, mode)
@@ -307,6 +326,89 @@ def parse_cmdargs(args):
     parsed = parser.parse_args(args)
     parsed.reg = Region(parsed.ref, parsed.start, parsed.stop)
     return parsed
+
+
+def parse_bam_record(byts, header):
+    """
+    Return AlignedSegment parsed from binary BAM record.
+
+    byts: The BAM record.
+    header: AlignmentHeader containing reference sequence names.
+
+    See: Sequence Alignment/Map Format Specification|4.2
+    """
+    read = AlignedSegment(header)
+    fmt, offset = '<l', 0
+    read.reference_id = unpack_from(prev := fmt, byts, offset)[0]
+
+    fmt, offset = '<l', offset + calcsize(prev)
+    read.reference_start = unpack_from(prev := fmt, byts, offset)[0]
+
+    fmt, offset = '<B', offset + calcsize(prev)
+    l_read_name = unpack_from(prev := fmt, byts, offset)[0]
+
+    fmt, offset = '<B', offset + calcsize(prev)
+    read.mapping_quality = unpack_from(prev := fmt, byts, offset)[0]
+
+    fmt, offset = '<H', offset + calcsize(prev)
+    bin_ = unpack_from(prev := fmt, byts, offset)[0]
+
+    fmt, offset = '<H', offset + calcsize(prev)
+    n_cigar_op = unpack_from(prev := fmt, byts, offset)[0]
+
+    fmt, offset = '<H', offset + calcsize(prev)
+    read.flag = unpack_from(prev := fmt, byts, offset)[0]
+
+    fmt, offset = '<L', offset + calcsize(prev)
+    l_seq = unpack_from(prev := fmt, byts, offset)[0]
+
+    fmt, offset = '<l', offset + calcsize(prev)
+    read.next_reference_id = unpack_from(prev := fmt, byts, offset)[0]
+
+    fmt, offset = '<l', offset + calcsize(prev)
+    read.next_reference_start = unpack_from(prev := fmt, byts, offset)[0]
+
+    fmt, offset = '<l', offset + calcsize(prev)
+    read.template_length = unpack_from(prev := fmt, byts, offset)[0]
+
+    fmt, offset = f'<{l_read_name}s', offset + calcsize(prev)
+    read.query_name = unpack_from(prev := fmt, byts, offset)[0][:-1].decode('ascii')
+
+    fmt, offset = f'<{n_cigar_op}L', offset + calcsize(prev)
+    cigar_enc = unpack_from(prev := fmt, byts, offset)
+    read.cigartuples = [(c & 15, c >> 4) for c in cigar_enc]
+
+    fmt, offset = f'<{(l_seq+1)//2}B', offset + calcsize(prev)
+    seq_enc = unpack_from(prev := fmt, byts, offset)
+    seq = ''.join(chain.from_iterable(
+        (BASE_ENC[i >> 4], BASE_ENC[i & 15]) for i in seq_enc))
+    # omit undefined last value when l_seq is odd
+    read.query_sequence = seq[:-1] if l_seq // 2 else seq
+
+    fmt, offset = f'<{l_seq}s', offset + calcsize(prev)
+    read.query_qualities = unpack_from(prev := fmt, byts, offset)[0]
+
+    offmax = len(byts)
+    fmt, offset = '<2s', offset + calcsize(prev)
+    while offset < offmax :
+        tag = unpack_from(prev := fmt, byts, offset)[0].decode('ascii')
+        fmt, offset = '<c', offset + calcsize(prev)
+        val_type = unpack_from(prev := fmt, byts, offset)[0].decode('ascii')
+        offset += calcsize(prev)
+        if val_type in VALTYPE_ENC:
+            fmt = f'{VALTYPE_ENC[val_type]}'
+            val = unpack_from(prev := fmt, byts, offset)[0]
+        elif val_type == 'Z':
+            remain = byts[offset:]
+            nul = remain.index(b'\x00')
+            val = ''.join(chr(b) for b in remain[:nul])
+            prev = f'<{len(val)+1}c'
+        else:
+            raise NotImplementedError(val_type)
+        read.set_tag(tag, val, val_type)
+        fmt, offset = '<2s', offset + calcsize(prev)
+
+    return read
 
 
 def reg2bins(rbeg, rend):

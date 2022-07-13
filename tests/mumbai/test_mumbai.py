@@ -74,8 +74,9 @@ class TestMumbai(TestCase):
         The reads are paired 101bp.
         """
         reg = mumbai.Region('chr1', 10379, 10379)
-        qnames = [sam.split('\t')[0] for pos, sam in
-                  mumbai.bam_fetch(TESTBAM, TESTBAM_RECORDSTART, reg, 'sam')]
+        qnames = [sam.split('\t')[0] for pos, sam in mumbai.bam_fetch(
+                  TESTBAM, ['chr1'], [249250621], TESTBAM_RECORDSTART,
+                  reg, 'sam')]
         # 0 mapped qnames overlap chr1:10379-10379; the one placed at
         # POS = 10379 is unmapped so not returned.
         expected = []
@@ -88,8 +89,9 @@ class TestMumbai(TestCase):
         The reads are paired 101bp.
         """
         reg = mumbai.Region('chr1', 100000, 100000)
-        qnames = [sam.split('\t')[0] for pos, sam in
-                  mumbai.bam_fetch(TESTBAM, TESTBAM_RECORDSTART, reg, 'sam')]
+        qnames = [sam.split('\t')[0] for pos, sam in mumbai.bam_fetch(
+                  TESTBAM, ['chr1'], [249250621], TESTBAM_RECORDSTART,
+                  reg, 'sam')]
         # 1 mapped record overlaps chr1:100000-100000; the one that starts at
         # POS = 100000
         expected = ['D8QSB6V1:72:C1K64ACXX:4:2311:13531:97563']
@@ -102,8 +104,9 @@ class TestMumbai(TestCase):
         The reads are paired 101bp.
         """
         reg = mumbai.Region('chr1', 100010, 100010)
-        qnames = [sam.split('\t')[0] for pos, sam in
-                  mumbai.bam_fetch(TESTBAM, TESTBAM_RECORDSTART, reg, 'sam')]
+        qnames = [sam.split('\t')[0] for pos, sam in mumbai.bam_fetch(
+                  TESTBAM, ['chr1'], [249250621], TESTBAM_RECORDSTART,
+                  reg, 'sam')]
         # 3 mapped qnames overlap chr1:100010-100010; the one that starts at
         # POS = 100000 and both that start at 100005
         expected = ['D8QSB6V1:72:C1K64ACXX:4:2311:13531:97563',
@@ -118,8 +121,9 @@ class TestMumbai(TestCase):
         The reads are paired 101bp.
         """
         reg = mumbai.Region('chr1', 100100, 100100)
-        qnames = [sam.split('\t')[0] for pos, sam in
-                  mumbai.bam_fetch(TESTBAM, TESTBAM_RECORDSTART, reg, 'sam')]
+        qnames = [sam.split('\t')[0] for pos, sam in mumbai.bam_fetch(
+                  TESTBAM, ['chr1'], [249250621], TESTBAM_RECORDSTART,
+                  reg, 'sam')]
         # 2 mapped qnames overlap chr1:100100-100100; the one that starts at
         # POS = 100000 and the unclipped one that starts at POS = 100005
         expected = ['D8QSB6V1:72:C1K64ACXX:4:2311:13531:97563',
@@ -133,8 +137,9 @@ class TestMumbai(TestCase):
         The reads are paired 101bp.
         """
         reg = mumbai.Region('chr1', 100101, 100101)
-        qnames = [sam.split('\t')[0] for pos, sam in
-                  mumbai.bam_fetch(TESTBAM, TESTBAM_RECORDSTART, reg, 'sam')]
+        qnames = [sam.split('\t')[0] for pos, sam in mumbai.bam_fetch(
+                  TESTBAM, ['chr1'], [249250621], TESTBAM_RECORDSTART,
+                  reg, 'sam')]
         # 2 mapped qnames overlap chr1:100101-100101; the unclipped one that
         # starts at POS = 100005 and the one that starts at POS = 100101
         expected = ['HWI-ST1213:151:C1DTBACXX:2:1210:12782:5555',

@@ -183,7 +183,7 @@ def bam_fetch(bam, offset, reg, mode):
         elif mode == 'sam':
             sam.append((read.pos, read.to_string()))
         elif mode == 'tview':
-            tview.append((ref_pos[0], aligned_view(read)))
+            tview.append((aln_start, aligned_view(read)))
         else:
             raise NotImplementedError(mode)
 
@@ -350,12 +350,12 @@ def update_pileup(pileup, reg, read, reference_positions=None):
     """
     ref_pos = reference_positions or read.get_reference_positions()
     ref_bases = read.get_reference_sequence()  # requires MD tag
-    ref_start, aln = ref_pos[0], aligned_view(read)
-    ref_stop = ref_start + len(aln) - 1
-    aln_0 = 0 if reg.start0 <= ref_start else reg.start0 - ref_start
-    aln_1 = len(aln) if reg.stop0 >= ref_stop else reg.stop0 - ref_stop + len(aln)
+    aln = aligned_view(read)
+    aln_start, aln_stop = ref_pos[0], ref_pos[-1]
+    aln_0 = 0 if reg.start0 <= aln_start else reg.start0 - aln_start
+    aln_1 = len(aln) if reg.stop0 >= aln_stop else reg.stop0 - aln_stop + len(aln)
     for aln_i in range(aln_0, aln_1):
-        pos = ref_start + aln_i + 1
+        pos = aln_start + aln_i + 1
         base = aln[aln_i].upper()
         p_loc = pileup[(reg.contig, pos)]
         p_loc['ref'] = ref_bases[aln_i]

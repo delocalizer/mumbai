@@ -100,10 +100,8 @@ def aligned_view(alignedseg):
     aln, qpos, seq = [], 0, alignedseg.query_sequence
     for (op, num) in alignedseg.cigartuples:
         if op == 0:    # M
-            if alignedseg.is_reverse:
-                aln.extend(map(str.lower, seq[qpos:qpos+num]))
-            else:
-                aln.extend(seq[qpos:qpos+num])
+            aln.extend(map(str.lower if alignedseg.is_reverse else str.upper,
+                           seq[qpos:qpos+num]))
             qpos += num
         elif op == 1:  # I
             aln[-1] = '|'

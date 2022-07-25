@@ -21,7 +21,3 @@
   The numbers match exactly, when taking account of the two reads with N at
   the position that are in the SAM format output but aren't counted by the
   current implementation of pileup in `mumbai`.
-
-## Discussion
-
-  3% of the normal reads are T>G at that position. Interesting, or not?

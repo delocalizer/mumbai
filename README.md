@@ -4,8 +4,8 @@ Faster position-based slice or lookup on multiple bams.
 
 # Background
 
-Say you have dozens or more indexed bams on sitting on fast disk and you wish
-to query them all by position. Two possible solutions are:
+You have dozens or more indexed bams sitting on fast disk and you wish
+to query them all by position. Possible solutions include:
 
 1. Query all the bams in parallel and aggregate.
 2. Create an aggregate data structure out of all the bams (e.g. in HDF5) and
@@ -15,7 +15,7 @@ They both have some appeal — the first needs no pre-processing time or extra
 storage; the second requires less compute at runtime and should be faster. Here
 we try to improve upon the most naïve implementation of the first approach by
 creating an aggregate _index_ from the .bai files, so that instead of reading
-all indices to locate all the offsets we make one query to the index database.
+all indices to locate all the offsets we make one query to the aggregate index.
 
 # Implementation
 
